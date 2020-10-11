@@ -31,11 +31,11 @@ print("")
 # info using platform and sys
 name = platform.uname()
 cpu = platform.processor()
-winver = sys.getwindowsversion()
+# winver = sys.getwindowsversion()
 
 print(name)
 print(cpu)
-print(winver)
+# print(winver)
 
 print("")
 # Gets external IP through scraping
