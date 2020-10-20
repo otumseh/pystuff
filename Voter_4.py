@@ -1,6 +1,6 @@
 # ebay scraper using selenium
 
-# stuff needed and lists formatting
+# stuff needed and panda lists formatting
 import csv
 import time
 import requests
@@ -14,9 +14,14 @@ pd.set_option('expand_frame_repr', False)
 # bot setup and user input, open buy it now page 1
 class EbayBIN:
     def __init__(self):
+        options = webdriver.ChromeOptions()
+        # options.add_argument('headless')
+        # options.add_argument('--disable-infobars')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--no-sandbox')
         search1 = (input("Type an item: "))
         askcsv = (input("Do you want a csv? 'y' or 'n': "))
-        self.driver = webdriver.Chrome("./chromedriver")
+        self.driver = webdriver.Chrome("./chromedriver",options=options)
         self.driver.get("https://www.ebay.com/")
         time.sleep(4)
         self.driver.find_element_by_xpath("//*[@id='gh-ac-box2']").click()

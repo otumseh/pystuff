@@ -62,4 +62,3 @@ s.close()
 # ipitem = ipadd.find_all(class_="")
 # ipnow = ipitem[0]
 # print(ipnow.prettify())
-

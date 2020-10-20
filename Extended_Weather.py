@@ -3,7 +3,7 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-pd.set_option('max_colwidth',170)
+pd.set_option('max_colwidth',164)
 pd.set_option('expand_frame_repr', False)
 # pd.set_option('display.max_columns', None)
 # pd.set_option('display.max_rows', None)
@@ -35,10 +35,10 @@ descs = [d["title"] for d in seven_day.select(".tombstone-container img")]
 
 # pandas data frame
 weather = pd.DataFrame({
-        "short_desc": short_descs,
-        "period": periods,
-        "temp": temps,
-        "desc": descs
+        "Basic Description": short_descs,
+        "Period": periods,
+        "Temperature": temps,
+        "Full Description": descs
     })
 
 print(weather)
