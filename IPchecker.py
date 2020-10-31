@@ -3,7 +3,7 @@
 # import requests
 import socket
 import platform
-import sys
+# import sys
 import psutil
 # import dfwinreg
 from requests import get
@@ -51,7 +51,8 @@ s.close()
 # trying to scape from google answer list to what is my ip
 # from bs4 import BeautifulSoup
 
-# page = requests.get("https://www.google.com/search?q=What+is+my+ip&oq=What+is+my+ip&aqs=chrome..69i57.3309j0j8&sourceid=chrome&ie=UTF-8")
+# page = requests.get("https://www.google.com/search?q=What+is+my+ip&oq=
+#                    "What+is+my+ip&aqs=chrome..69i57.3309j0j8&sourceid=chrome&ie=UTF-8")
 # soup = BeautifulSoup(page.content, 'html.parser')
 # print(soup.prettify())
 # list(soup.children)
