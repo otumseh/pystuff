@@ -8,7 +8,8 @@ pd.set_option('expand_frame_repr', False)
 # pd.set_option('display.max_columns', None)
 # pd.set_option('display.max_rows', None)
 
-page = requests.get("https://forecast.weather.gov/MapClick.php?CityName=Pinconning&state=MI&site=DTX&textField1=43.8579&textField2=-83.9646&e=0")
+page = requests.get("https://forecast.weather.gov/MapClick.php?CityName=Pinconning"
+                    "&state=MI&site=DTX&textField1=43.8579&textField2=-83.9646&e=0")
 soup = BeautifulSoup(page.content, 'html.parser')
 seven_day = soup.find(id="seven-day-forecast")
 forecast_items = seven_day.find_all(class_="tombstone-container")
