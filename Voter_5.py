@@ -18,14 +18,10 @@ class Primewirebin:
     def __init__(self):
         space = " "
         # forslashspace = "\ "
-        options = webdriver.ChromeOptions()
-        options.add_argument('headless')
-        # options.add_argument('--disable-infobars')
-        options.add_argument('--disable-dev-shm-usage')
-        options.add_argument('--no-sandbox')
         site = (input("Input url: "))
         pathconst = "/home/nosmo/D_2tb/temp/"
         # pathINP = (input("Input destination path: "))
+        # askcsv = (input("Do you want a csv? 'y' or 'n': "))
         name1 = (input("Input file name: "))
         # name1.replace(' ', ' ')
         namespace = name1 + space
@@ -36,9 +32,15 @@ class Primewirebin:
         os.system(f'curl --output {combo1}')
         # os.system(f'wget -O {combo1}')
         # os.system(f'for file in {pathconst}; do mv "$file" `echo $file | tr '_' ' ' ; done')
-        # askcsv = (input("Do you want a csv? 'y' or 'n': "))
+
+        options = webdriver.ChromeOptions()
+        # options.add_argument('headless')
+        # options.add_argument('--disable-infobars')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--no-sandbox')
         self.driver = webdriver.Chrome("./chromedriver", options=options)
-        # self.driver.get("https://www.ebay.com/")
+
+        # self.driver.get("https://www.primewire.vc/")
         # time.sleep(4)
         # self.driver.find_element_by_xpath("//*[@id='gh-ac-box2']").click()
         # searchbox = self.driver.find_element_by_css_selector("#gh-ac")
@@ -88,7 +90,9 @@ class Primewirebin:
 #         time.sleep(10)
 # # if csv ? answer is y create csv
 #         if askcsv == "y":
+              # csvpath = (input("Where do you want the csv?: "))
+              # search2 = csvpath + search1
 #             listend = pd.concat([list1, list2], ignore_index=True)
-#             listend.to_csv("/home/nosmo/Documents/" + search1 + ".csv")
+#             listend.to_csv(search2 + ".csv")
 # close selenium browser head
         self.driver.close()
