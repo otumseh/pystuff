@@ -34,11 +34,18 @@ class EbayBIN:
         time.sleep(1)
         startsearch.click()
         time.sleep(2)
-        # buyitnow = self.driver.find_element_by_css_selector("li.fake-tabs__item.btn")
-        # buyitnow = self.driver.find_element_by_css_selector("li.fake-tabs__item")
-        buyitnow = self.driver.find_element_by_xpath("/html/body/div[5]/div[5]/div[1]/div/div[1]/div[2]/div[1]/div/ul/li[4]/span")
+    # gets buy it now tab for chosen item
+        starturl = self.driver.current_url
+        res = requests.get(starturl)
+        ebaysoup = BeautifulSoup(res.text, "lxml")
+        elements = ebaysoup.select("li.fake-tabs__item.btn a")
+        print(elements[2]["href"])
+        buyitnow = (elements[2]["href"])
+        print(buyitnow)
+        self.driver.get(buyitnow)
         time.sleep(1)
-        buyitnow.click()
+        # buyitnow = self.driver.find_element_by_css_selector("li.fake-tabs__item.btn")
+        # buyitnow.click()
 # current location check and print page 1 and 2
         url = self.driver.current_url
         print(url)
