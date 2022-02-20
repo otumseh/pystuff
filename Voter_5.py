@@ -90,8 +90,8 @@ class Primewirebin:
 #         time.sleep(10)
 # # if csv ? answer is y create csv
 #         if askcsv == "y":
-              # csvpath = (input("Where do you want the csv?: "))
-              # search2 = csvpath + search1
+#             csvpath = (input("Where do you want the csv?: "))
+#             search2 = csvpath + search1
 #             listend = pd.concat([list1, list2], ignore_index=True)
 #             listend.to_csv(search2 + ".csv")
 # close selenium browser head
