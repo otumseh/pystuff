@@ -6,10 +6,10 @@
 # import numpy as np
 import os
 import time
-# import requests
+import requests
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-# from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 import pandas as pd
 pd.set_option('max_colwidth', 140)
 pd.set_option('expand_frame_repr', False)
@@ -20,7 +20,12 @@ class Primewirebin:
     def __init__(self):
 
         # get user's search
-        search0 = (input("Input TV or Movie: "))
+        selectmedia = (input("Type 'M' for a Movie search and 'T' for TV."))
+
+        if selectmedia == "M" or "m":
+            search0 = (input("Input Movie title: "))
+        else:
+            search1 = (input("Input TV series: "))
 
         options = webdriver.ChromeOptions()
         # options.add_argument('headless')
@@ -35,6 +40,17 @@ class Primewirebin:
         time.sleep(3)
         searchbox.send_keys(search0)
         searchbox.send_keys(Keys.ENTER)
+
+        searchres = self.driver.current_url
+        res = requests.get(searchres)
+        Primewiresoup = BeautifulSoup(res.text, "lxml")
+        elements = Primewiresoup.select("div.index_item.index_item_ie a")
+        print(elements[0]["href"])
+        firstpos = (elements[0]["href"])
+        print(firstpos)
+        movpage = "https://www.primewire.vc" + firstpos
+        self.driver.get(movpage)
+        time.sleep(1)
         # startsearch = self.driver.find_element_by_css_selector("#button.btn")
         # time.sleep(1)
         # startsearch.click()
