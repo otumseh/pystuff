@@ -53,12 +53,15 @@ class EbayBIN:
         url2 = url + "&_pgn=2"
         print(url2)
         page2 = requests.get(url2)
-# scrape data
+# scrape descriptions, prices, shipping data for 2 pages of results
         soup = BeautifulSoup(page.content, 'html.parser')
         soup2 = BeautifulSoup(page2.content, 'html.parser')
 
         fullpage = soup.find(id="mainContent")
         fullpage2 = soup2.find(id="mainContent")
+
+        # itembins = [ib.get_text() for ib in fullpage.select(".s-item")]
+        # print(itembins)
 
         short_descs1 = [sd.get_text() for sd in fullpage.select(".s-item .s-item__title")]
         prices1 = [p.get_text() for p in fullpage.select(".s-item .s-item__price")]
@@ -72,35 +75,64 @@ class EbayBIN:
         # Descriptions for page 1
         list0 = pd.DataFrame({"Description": short_descs1})
         list0["Description"] = list0["Description"].fillna(0)
-        list0 = list0.drop(labels=0, axis=0)
-        # if list0[0].equals("Shop on eBay") is True:
-        #     list0 = list0.drop(labels=["Description"], axis=0, inplace=True)
-
+        list0 = list0.to_numpy()
+        entry1 = (list0[0])
+        print(entry1)
+        if entry1 == "Shop on eBay":
+            check1 = True
+            list0 = pd.DataFrame({"Description": short_descs1})
+            list0 = list0.drop(labels=0, axis=0)
+        else:
+            list0 = pd.DataFrame({"Description": short_descs1})
+            check1 = False
         # Prices for page 1
         list1 = pd.DataFrame({"Price": prices1})
         list1["Price"] = list1["Price"].fillna(0)
-        list1 = list1.drop(labels=0, axis=0)
+        list1 = list1.to_numpy()
+        entry2 = (list1[0])
+        print(entry2)
+        if entry2 == "$20.00" and check1 is True:
+            list1 = pd.DataFrame({"Price": prices1})
+            list1 = list1.drop(labels=0, axis=0)
+        else:
+            list1 = pd.DataFrame({"Price": prices1})
 
         # Shipping costs for page 1
         list2 = pd.DataFrame({"Shipping": shippingcost1})
         list2["Shipping"] = list2["Shipping"].fillna(0)
-        #
+        # grab data frame lengths page 1
         list0len = (len(short_descs1))
         list1len = (len(prices1))
         list2len = (len(shippingcost1))
     # Page 2 lists
-        #
+        # Descriptions for page 2
         list3 = pd.DataFrame({"Description": short_descs2})
         list3["Description"] = list3["Description"].fillna(0)
-        list3 = list3.drop(labels=0, axis=0)
-        #
+        list3 = list3.to_numpy()
+        entry3 = (list3[0])
+        print(entry3)
+        if entry3 == "Shop on eBay":
+            check2 = True
+            list3 = pd.DataFrame({"Description": short_descs2})
+            list3 = list3.drop(labels=0, axis=0)
+        else:
+            list3 = pd.DataFrame({"Description": short_descs2})
+            check2 = False
+        # Prices for page 2
         list4 = pd.DataFrame({"Price": prices2})
         list4["Price"] = list4["Price"].fillna(0)
-        list4 = list4.drop(labels=0, axis=0)
-        #
+        list4 = list4.to_numpy()
+        entry4 = (list4[0])
+        print(entry4)
+        if entry4 == "$20.00" and check2 is True:
+            list4 = pd.DataFrame({"Price": prices2})
+            list4 = list4.drop(labels=0, axis=0)
+        else:
+            list4 = pd.DataFrame({"Price": prices2})
+        # Shipping costs for page 2
         list5 = pd.DataFrame({"Shipping": shippingcost2})
         list5["Shipping"] = list5["Shipping"].fillna(0)
-        #
+        # grab data frame lengths page 2
         list3len = (len(short_descs2))
         list4len = (len(prices2))
         list5len = (len(shippingcost2))
@@ -111,7 +143,7 @@ class EbayBIN:
             print("")
             print(list0, " ", list1, " ", list2)
             time.sleep(2)
-            # if csv ? answer is y create csv for 1 page
+        # if csv ? answer is y create csv for 1 page
             if askcsv == "y":
                 csvpath = (input("Where do you want the csv?: "))
                 search2 = csvpath + search1
@@ -126,7 +158,7 @@ class EbayBIN:
             time.sleep(2)
             print(list3, list4, list5)
             time.sleep(4)
-            # if csv ? answer is y create csv for 2 pages
+        # if csv ? answer is y create csv for 2 pages
             if askcsv == "y":
                 csvpath = (input("Where do you want the csv?: "))
                 search2 = csvpath + search1
