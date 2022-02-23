@@ -43,8 +43,8 @@ class Primewirebin:
 
         searchres = self.driver.current_url
         res = requests.get(searchres)
-        Primewiresoup = BeautifulSoup(res.text, "lxml")
-        elements = Primewiresoup.select("div.index_item.index_item_ie a")
+        primewiresoup = BeautifulSoup(res.text, "lxml")
+        elements = primewiresoup.select("div.index_item.index_item_ie a")
         print(elements[0]["href"])
         firstpos = (elements[0]["href"])
         print(firstpos)

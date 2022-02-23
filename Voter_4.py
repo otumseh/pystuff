@@ -8,7 +8,9 @@ import time
 import requests
 from selenium import webdriver
 from bs4 import BeautifulSoup
+# from functools import reduce
 import pandas as pd
+
 pd.set_option('max_colwidth', 140)
 pd.set_option('expand_frame_repr', False)
 
@@ -17,10 +19,11 @@ pd.set_option('expand_frame_repr', False)
 class EbayBIN:
     def __init__(self):
         options = webdriver.ChromeOptions()
-        # options.add_argument('headless')
+        options.add_argument('headless')
         # options.add_argument('--disable-infobars')
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument('--no-sandbox')
+# Collect input and execute search
         search1 = (input("Type an item: "))
         askcsv = (input("Do you want a csv? 'y' or 'n': "))
         self.driver = webdriver.Chrome("./chromedriver", options=options)
@@ -34,7 +37,7 @@ class EbayBIN:
         time.sleep(1)
         startsearch.click()
         time.sleep(2)
-    # gets buy it now tab for chosen item
+# gets buy it now tab for chosen item
         starturl = self.driver.current_url
         res = requests.get(starturl)
         ebaysoup = BeautifulSoup(res.text, "lxml")
@@ -46,7 +49,7 @@ class EbayBIN:
         time.sleep(1)
         # buyitnow = self.driver.find_element_by_css_selector("li.fake-tabs__item.btn")
         # buyitnow.click()
-# current location check and print page 1 and 2
+    # current location check and print check page 1 and 2
         url = self.driver.current_url
         print(url)
         page = requests.get(url)
@@ -136,19 +139,30 @@ class EbayBIN:
         list3len = (len(short_descs2))
         list4len = (len(prices2))
         list5len = (len(shippingcost2))
+# compile the list of dataframes you want to merge
+        print(list0.index)
+        print(list1.index)
+        print(list2.index)
+        t1 = pd.merge(list0, list1, on=list0.index, how='outer')
+        print(t1)
+        print(t1.index)
+        extcol = list2["Shipping"]
+        print(extcol)
+        t1 = t1.join(extcol)
+        print(t1)
 # check for page duplicates/single page listing check and print check lists
         if list0len == list3len and list1len == list4len and list2len == list5len:
             print(list0len, list1len, list2len)
             print("There is only one page worth of entries.")
-            print("")
-            print(list0, " ", list1, " ", list2)
+            # print("")
+            # print(list0, " ", list1, " ", list2)
             time.sleep(2)
-        # if csv ? answer is y create csv for 1 page
+            # if csv ? answer is y create csv for 1 page
             if askcsv == "y":
                 csvpath = (input("Where do you want the csv?: "))
                 search2 = csvpath + search1
-                listend = pd.concat([list0, list1, list2], ignore_index=True)
-                listend.to_csv(search2 + ".csv")
+                # listend = pd.concat([list0, list1, list2], ignore_index=True)
+                t1.to_csv(search2 + ".csv")
         else:
             print(list0len, list1len, list2len)
             print(list3len, list4len, list5len)
@@ -158,7 +172,7 @@ class EbayBIN:
             time.sleep(2)
             print(list3, list4, list5)
             time.sleep(4)
-        # if csv ? answer is y create csv for 2 pages
+            # if csv ? answer is y create csv for 2 pages
             if askcsv == "y":
                 csvpath = (input("Where do you want the csv?: "))
                 search2 = csvpath + search1
