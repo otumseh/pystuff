@@ -64,7 +64,13 @@ class EbayBIN:
         fullpage2 = soup2.find(id="mainContent")
 
         # itembins = [ib.get_text() for ib in fullpage.select(".s-item")]
+        # itembins = data.find('ul')
+        for li in fullpage.find_all("li"):
+            print(li.text, end=" ")
+        # itembins = fullpage.select("li.s-item.s-item__pl-on-bottom.s-item--watch-at-corner .s-item")
         # print(itembins)
+        # pricestest = [p.get_text() for p in itembins.select(".s-item .s-item__price")]
+        # print(pricestest)
 
         short_descs1 = [sd.get_text() for sd in fullpage.select(".s-item .s-item__title")]
         prices1 = [p.get_text() for p in fullpage.select(".s-item .s-item__price")]
