@@ -62,11 +62,28 @@ class EbayBIN:
 
         fullpage = soup.find(id="mainContent")
         fullpage2 = soup2.find(id="mainContent")
+# scrape full item containers
+#         itembins = soup.find_all('li', attrs={'class': 's-item'})
+#         for items in itembins:
+#             prod_name = " "
+#             prod_price = " "
+#             for name in items.find_all('h3', attrs={'class': "s-item__title"}):
+#                 if (str(name.find(text=True, recursive=False)) != "None"):
+#                     prod_name = str(name.find(text=True, recursive=False))
+#                     item_name.append(prod_name)
+#
+#             if (prod_name != " "):
+#                 price = items.find('span', attrs={'class': "s-item__price"})
+#                 prod_price = str(price.find(text=True, recursive=False))
+#                 prod_price = int(sub(",", "", prod_price.split("INR")[1].split(".")[0]))
+#                 prices.append(prod_price)
 
+        # itembins = soup.find(cl="")
         # itembins = [ib.get_text() for ib in fullpage.select(".s-item")]
         # itembins = data.find('ul')
         for li in fullpage.find_all("li"):
             print(li.text, end=" ")
+
         # itembins = fullpage.select("li.s-item.s-item__pl-on-bottom.s-item--watch-at-corner .s-item")
         # print(itembins)
         # pricestest = [p.get_text() for p in itembins.select(".s-item .s-item__price")]
