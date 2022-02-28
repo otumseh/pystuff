@@ -78,8 +78,8 @@ class EbayBIN:
             # prices
             if prod_name != " ":
                 price = listing.find('span', attrs={'class': "s-item__price"})
-                # prod_price = str(price.find(text=True, recursive=False))
-                prices.append(price)
+                pricestr = str(price.find(text=True, recursive=False))
+                prices.append(pricestr)
                 # print(price)
             # shippings
                 shipping = [sc.get_text() for sc in listing.select(".s-item .s-item__shipping.s-item__logisticsCost")]
