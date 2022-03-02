@@ -19,14 +19,14 @@ pd.set_option('expand_frame_repr', False)
 class Primewirebin:
     def __init__(self):
 
-        # get user's search
+    # get user's search
         selectmedia = (input("Type 'M' for a Movie search and 'T' for TV."))
 
         if selectmedia == "M" or "m":
             search0 = (input("Input Movie title: "))
         else:
             search1 = (input("Input TV series: "))
-
+    # selenium
         options = webdriver.ChromeOptions()
         # options.add_argument('headless')
         # options.add_argument('--disable-infobars')
@@ -55,7 +55,73 @@ class Primewirebin:
         # time.sleep(1)
         # startsearch.click()
         # time.sleep(3)
+# get current url
+        url = self.driver.current_url
+        print(url)
+        page = requests.get(url)
+# scrape host options
+# create dbs to take data from scrape targets
+        item_qs = []
+        sizes = []
+        hostsites = []
+        gotos = []
 
+        data = page.text
+        soup = BeautifulSoup(data)
+
+        listings = soup.find_all('table', attrs={'class': 'movie_version'})
+        # print(listings)
+        for listing in listings:
+            prod_name = " "
+            # prod_price = " "
+            # prod_shipping = " "
+            for name in listing.find_all('td', attrs={'class': "link_version_quality"}):
+                if str(name.find(text=True, recursive=False)) != "None":
+                    prod_name = str(name.find(text=True, recursive=False))
+                    item_qs.append(prod_name)
+                    print(prod_name)
+            # prices
+            if prod_name != " ":
+                size = listing.find('span', attrs={'class': "quality_tag"})
+                # pricestr = str(price.find(text=True, recursive=False))
+                sizes.append(size)
+                print(size)
+                # shippings
+                # shipping = [sc.get_text() for sc in listing.select(".s-item .s-item__shipping.s-item__logisticsCost")]
+                hostsite = listing.find('span', attrs={'class': "version-host"})
+                # prod_shipping = str(shipping.find(text=True, recursive=False))
+                hostsites.append(hostsite)
+                print(hostsite)
+
+                starturl = self.driver.current_url
+                res = requests.get(starturl)
+                newsoup = BeautifulSoup(res.text, "lxml")
+                elements = newsoup.select("propper-link.popper.ico-btn a")
+                goto = elements[0]["href"]
+                gotos.append(goto)
+                # print(elements[-1]["href"])
+                # buyitnow = (elements[-1]["href"])
+                # print(buyitnow)
+                # self.driver.get(buyitnow)
+        # print checks
+        print(len(item_qs))
+        print(len(sizes))
+        print(len(hostsites))
+        # print(hostsites)
+        #
+        # list0len = (len(item_qs))
+        # list1len = (len(sizes))
+        # list2len = (len(hostsites))
+        # list3len = (len(item_names))
+        # list4len = (len(prices))
+        # list5len = (len(shippings))
+# put into pandas df
+        output = pd.DataFrame({"Name": item_qs, "Price": sizes, "Shipping": hostsites})
+        print(output)
+# get option from user an option and go to it
+        selecthost = input("Select the index of the host you wish to use: ")
+
+# download
         space = " "
         # forslashspace = "\ "
         site = (input("Input url: "))
@@ -70,10 +136,13 @@ class Primewirebin:
         combo1 = pathconst1 + site
         print(combo1)
         os.system(f'curl --output {combo1}')
+
+
+
         # os.system(f'wget -O {combo1}')
         # os.system(f'for file in {pathconst}; do mv "$file" `echo $file | tr '_' ' ' ; done')
-
         # self.driver.find_element_by_css_selector("li.fake-tabs__item:nth-child(4)").click()
+
 # current location and print check page 1 and 2
 #         url = self.driver.current_url
 #         print(url)

@@ -57,7 +57,7 @@ class EbayBIN:
         print(url2)
         page2 = requests.get(url2)
 
-    # scrape
+    # create dbs to take data from scrape targets
         item_names = []
         prices = []
         shippings = []
