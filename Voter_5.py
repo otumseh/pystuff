@@ -33,7 +33,7 @@ class Primewirebin:
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument('--no-sandbox')
         self.driver = webdriver.Chrome("./chromedriver", options=options)
-        self.driver.get("https://www.primewire.vc/")
+        self.driver.get("https://www.primewire.vc/") # https://www.soap2day.ac
         time.sleep(3)
         self.driver.find_element_by_xpath("//*[@id='search_term']").click()
         searchbox = self.driver.find_element_by_css_selector("#search_term")
