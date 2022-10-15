@@ -4,23 +4,25 @@
 # grab stuff needed and panda lists formatting
 # import csv
 # import numpy as np
+# from functools import reduce
+# from scipy import stats
 import time
 import requests
+
 from selenium.webdriver import Firefox
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
-from selenium.webdriver.firefox.options import Options
-profile_path = r'/.mozilla/firefox/q15lt0n7.default-release'
-from bs4 import BeautifulSoup
-# from functools import reduce
-import pandas as pd
-# from scipy import stats
 from selenium.webdriver.common.by import By
+# from selenium.webdriver.firefox.options import Options
+from bs4 import BeautifulSoup
+import pandas as pd
 pd.set_option('max_colwidth', 140)
 pd.set_option('expand_frame_repr', False)
-
+profile_path = r'/.mozilla/firefox/q15lt0n7.default-release'
 
 # bot setup and user input, open buy it now page 1
+
+
 class EbayBIN:
     def __init__(self):
         options = webdriver.FirefoxOptions()
