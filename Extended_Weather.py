@@ -3,10 +3,11 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-pd.set_option('max_colwidth',164)
+pd.set_option('max_colwidth', 164)
 pd.set_option('expand_frame_repr', False)
 # pd.set_option('display.max_columns', None)
 # pd.set_option('display.max_rows', None)
+
 
 page = requests.get("https://forecast.weather.gov/MapClick.php?CityName=Pinconning"
                     "&state=MI&site=DTX&textField1=43.8579&textField2=-83.9646&e=0")

@@ -10,14 +10,14 @@ from bs4 import BeautifulSoup
 class WeaTher:
     def __init__(self):
         options = webdriver.ChromeOptions()
-        options.add_argument('headless')
+        # options.add_argument('headless')
         # options.add_argument('--disable-infobars')
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument('--no-sandbox')
         #
         search1 = (input("Enter City, St or zip code : "))
         #
-        self.driver = webdriver.Chrome("./chromedriver",options=options)
+        self.driver = webdriver.Chrome("./chromedriver", options=options)
         self.driver.get("https://www.weather.gov/")
         time.sleep(3)
         self.driver.find_element_by_xpath("//*[@id='inputstring']").click()

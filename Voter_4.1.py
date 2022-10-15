@@ -4,13 +4,15 @@
 # grab stuff needed and panda lists formatting
 # import csv
 # import numpy as np
+# from scipy import stats
+# from functools import reduce
 import time
 import requests
+from selenium.webdriver.chrome.service import Service
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
-# from functools import reduce
 import pandas as pd
-# from scipy import stats
 pd.set_option('max_colwidth', 140)
 pd.set_option('expand_frame_repr', False)
 
@@ -26,14 +28,15 @@ class EbayBIN:
 # Collect input and execute search
         search1 = (input("Type an item: "))
         askcsv = (input("Do you want a csv? 'y' or 'n': "))
-        self.driver = webdriver.Chrome("./chromedriver", options=options)
+        service = Service("./chromedriver")
+        self.driver = webdriver.Chrome(service=service, options=options)
         self.driver.get("https://www.ebay.com/")
         time.sleep(2)
-        self.driver.find_element_by_xpath("//*[@id='gh-ac-box2']").click()
-        searchbox = self.driver.find_element_by_css_selector("#gh-ac")
+        self.driver.find_element(By.XPATH, "//*[@id='gh-ac-box2']").click()
+        searchbox = self.driver.find_element(By.CSS_SELECTOR, "#gh-ac")
         time.sleep(2)
         searchbox.send_keys(search1)
-        startsearch = self.driver.find_element_by_css_selector("#gh-btn")
+        startsearch = self.driver.find_element(By.CSS_SELECTOR, "#gh-btn")
         time.sleep(1)
         startsearch.click()
         time.sleep(2)

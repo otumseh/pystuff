@@ -4,6 +4,7 @@ import datetime
 import requests
 from bs4 import BeautifulSoup
 
+
 page = requests.get("https://forecast.weather.gov/MapClick.php?CityName=Pinconning"
                     "&state=MI&site=DTX&textField1=43.8579&textField2=-83.9646&e=0")
 soup = BeautifulSoup(page.content, 'html.parser')
