@@ -15,16 +15,26 @@ print("")
 # info using psutil
 cpucount = psutil.cpu_count()
 cpucountphys = cpucount/2
-cpu2 = psutil.cpu_freq()
+# cpu2 = psutil.cpu_freq()
+cpu2max = psutil.cpu_freq().max
+cpu2min = psutil.cpu_freq().min
+cpu2current = psutil.cpu_freq().current
 cpu3 = psutil.cpu_stats()
+
+
 boot1 = psutil.boot_time()
 user = psutil.users()
 # net1 = psutil.net_if_addrs()
 
 print("Logical cores =", cpucount)
 print("Physical cores =", cpucountphys)
-print(cpu2)
+# print(cpu2)
+print("CPU Max Frequency:", cpu2max)
+print("CPU Min Frequency:", cpu2min)
+print("CPU Current Frequency:", cpu2current)
 print(cpu3)
+
+
 print(boot1)
 print(user)
 # print(net1)
@@ -42,12 +52,12 @@ print("CPU architecture =", cpu)
 print("")
 # Gets external IP through scraping
 ip = get('https://api.ipify.org', timeout=5).text
-print("Your external IP is ", ip)
+print("Your external IP is: ", ip)
 
 # Gets internal IP
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.connect(("8.8.8.8", 80))
-print("Your internal IP is ", s.getsockname()[0])
+print("Your internal IP is: ", s.getsockname()[0])
 s.close()
 
 # trying to scape from google answer list to what is my ip
