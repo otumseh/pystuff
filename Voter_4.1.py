@@ -1,4 +1,6 @@
-# ebay scraper using selenium
+"""
+ebay scraper using selenium with Chrome
+"""
 # test line
 
 # grab stuff needed and panda lists formatting
@@ -9,6 +11,7 @@
 import time
 import requests
 from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
@@ -42,7 +45,7 @@ class EbayBIN:
         time.sleep(2)
 # gets buy it now tab for chosen item
         starturl = self.driver.current_url
-        res = requests.get(starturl)
+        res = requests.get(starturl, timeout=20)
         ebaysoup = BeautifulSoup(res.text, "lxml")
         elements = ebaysoup.select("li.fake-tabs__item.btn a")
         print(elements[-1]["href"])
@@ -55,10 +58,10 @@ class EbayBIN:
     # current location check and print check page 1 and 2
         url = self.driver.current_url
         print(url)
-        page = requests.get(url)
+        page = requests.get(url, timeout=20)
         url2 = url + "&_pgn=2"
         print(url2)
-        page2 = requests.get(url2)
+        page2 = requests.get(url2, timeout=20)
 
     # create dbs to take data from scrape targets
         item_names = []
@@ -85,7 +88,8 @@ class EbayBIN:
                 prices.append(pricestr)
                 # print(price)
             # shippings
-                shipping = [sc.get_text() for sc in listing.select(".s-item .s-item__shipping.s-item__logisticsCost")]
+                shipping = [sc.get_text() for sc in listing.select(".s-item .s-item__shipping."
+                                                                   "s-item__logisticsCost")]
                 # prod_shipping = str(shipping.find(text=True, recursive=False))
                 shippings.append(shipping)
                 # print(shipping)

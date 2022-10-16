@@ -1,11 +1,13 @@
-# This program checks external and internal IPs and other info
+"""
+This program checks external and internal IPs and other info
+"""
 
 # import requests
+# import sys
+# import dfwinreg
 import socket
 import platform
-# import sys
 import psutil
-# import dfwinreg
 from requests import get
 
 print("")
@@ -34,12 +36,12 @@ cpu = platform.processor()
 # winver = sys.getwindowsversion()
 
 print(name)
-print(cpu)
+print("CPU architecture =", cpu)
 # print(winver)
 
 print("")
 # Gets external IP through scraping
-ip = get('https://api.ipify.org').text
+ip = get('https://api.ipify.org', timeout=5).text
 print("Your external IP is ", ip)
 
 # Gets internal IP

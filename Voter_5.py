@@ -137,9 +137,6 @@ class Primewirebin:
         combo1 = pathconst1 + site
         print(combo1)
         os.system(f'curl --output {combo1}')
-
-
-
         # os.system(f'wget -O {combo1}')
         # os.system(f'for file in {pathconst}; do mv "$file" `echo $file | tr '_' ' ' ; done')
         # self.driver.find_element_by_css_selector("li.fake-tabs__item:nth-child(4)").click()
