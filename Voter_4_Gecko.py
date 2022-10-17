@@ -33,7 +33,7 @@ class EbayBIN:
 # Collect input and execute search
         search1 = (input("Type an item: "))
         askcsv = (input("Do you want a csv? 'y' or 'n': "))
-        service = Service('./geckodriver')
+        service = Service('geckodriver')
         self.driver = Firefox(service=service, options=options)
         self.driver.get("https://www.ebay.com/")
         time.sleep(2)
