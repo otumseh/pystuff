@@ -47,11 +47,11 @@ cpu3syscalls = psutil.cpu_stats().syscalls
 user = psutil.users()
 # net1 = psutil.net_if_addrs()
 mem = psutil.virtual_memory()
-memTotal = psutil.virtual_memory().total / 1000000000
+memTotal = psutil.virtual_memory().total / (1024 ** 3)
 format_memtotal = "{:.2f}".format(memTotal)
-memAvail = psutil.virtual_memory().available / 1000000000
+memAvail = psutil.virtual_memory().available / (1024 ** 3)
 format_memAvail = "{:.2f}".format(memAvail)
-memUsed = psutil.virtual_memory().used / 1000000000
+memUsed = psutil.virtual_memory().used / (1024 ** 3)
 format_memUsed = "{:.2f}".format(memUsed)
 
 # info using platform
@@ -61,6 +61,17 @@ nameOSbase = platform.uname().system
 nameNode = platform.uname().node
 nameOSrelease = platform.uname().release
 nameOS = platform.uname().version
+
+# Gets external IP with get
+ip = get('https://api.ipify.org', timeout=5).text
+
+# Gets internal IP with socket
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.connect(("8.8.8.8", 80))
+
+# Gets gateway with netifaces
+gws = netifaces.gateways()
+# print(gws)
 
 # print POB
 print("CPU:", cputype)
@@ -100,20 +111,12 @@ print(winver)
 print("")
 
 # print(net1)
-# Gets external IP with get
-ip = get('https://api.ipify.org', timeout=5).text
 print("External IP: ", ip)
-# Gets internal IP with socket
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.connect(("8.8.8.8", 80))
 print("Internal IP: ", s.getsockname()[0])
-s.close()
-# Gets gateway with netifaces
-gws = netifaces.gateways()
-# print(gws)
 print("Gateway IP:  ", gws['default'][netifaces.AF_INET][0])
+s.close()
 
-# trying to scape from google answer list to what is my ip
+# trying to scrape from google answer list to what is my ip
 # from bs4 import BeautifulSoup
 
 # page = requests.get("https://www.google.com/search?q=What+is+my+ip&oq=
