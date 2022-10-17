@@ -47,12 +47,13 @@ cpu3syscalls = psutil.cpu_stats().syscalls
 user = psutil.users()
 # net1 = psutil.net_if_addrs()
 mem = psutil.virtual_memory()
-memTotal = psutil.virtual_memory().total / 1000000000
+memTotal = psutil.virtual_memory().total / (1024.0 ** 3)
 format_memtotal = "{:.2f}".format(memTotal)
-memAvail = psutil.virtual_memory().available / 1000000000
+memAvail = psutil.virtual_memory().available / (1024.0 ** 3)
 format_memAvail = "{:.2f}".format(memAvail)
-memUsed = psutil.virtual_memory().used / 1000000000
+memUsed = psutil.virtual_memory().used / (1024.0 ** 3)
 format_memUsed = "{:.2f}".format(memUsed)
+memPerc = psutil.virtual_memory().percent
 
 # info using platform
 nameCPU = platform.processor()
@@ -61,6 +62,17 @@ nameOSbase = platform.uname().system
 nameNode = platform.uname().node
 nameOSrelease = platform.uname().release
 nameOS = platform.uname().version
+
+# Gets external IP with get
+ip = get('https://api.ipify.org', timeout=5).text
+
+# Gets internal IP with socket
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.connect(("8.8.8.8", 80))
+
+# Gets gateway with netifaces
+gws = netifaces.gateways()
+# print(gws)
 
 # print POB
 print("CPU:", cputype)
@@ -82,6 +94,7 @@ print("")
 print("Total System Memory:", format_memtotal, "GB")
 print("Total Available Memory:", format_memAvail, "GB")
 print("Total Used Memory:", format_memUsed, "GB")
+print("Percentage Used:", memPerc, "%")
 print("")
 # print(boot1)
 # print(user[0])
@@ -98,17 +111,12 @@ print("OS:", nameOS)
 print("DE:", DeskTop)
 # print(winver)
 print("")
-
 # print(net1)
-# Gets external IP with get
-ip = get('https://api.ipify.org', timeout=5).text
 print("External IP: ", ip)
-# Gets internal IP with socket
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.connect(("8.8.8.8", 80))
 print("Internal IP: ", s.getsockname()[0])
-s.close()
-# Gets gateway with netifaces
-gws = netifaces.gateways()
-# print(gws)
 print("Gateway IP:  ", gws['default'][netifaces.AF_INET][0])
+s.close()
+
+#
+# x1 = subprocess.run(["sudo", "dmidecode", "--type", "17"])
+# print(x1)
