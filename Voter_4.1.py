@@ -31,8 +31,12 @@ class EbayBIN:
 # Collect input and execute search
         search1 = (input("Type an item: "))
         askcsv = (input("Do you want a csv? 'y' or 'n': "))
-        service = Service("./chromedriver")
-        self.driver = webdriver.Chrome(service=service, options=options)
+        # uncomment follow 2 lines for linux
+        # service = Service("./chromedriver")
+        # self.driver = webdriver.Chrome(service=service, options=options)
+        # uncomment the following 2 lines for Win
+        service = Service("C:/WebDriver/chromedriver.exe")
+        self.driver = webdriver.Chrome(options=options)
         self.driver.get("https://www.ebay.com/")
         time.sleep(2)
         self.driver.find_element(By.XPATH, "//*[@id='gh-ac-box2']").click()

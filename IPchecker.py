@@ -20,8 +20,8 @@ print("")
 cputype = cpuinfo.get_cpu_info()['brand_raw']
 
 # use subprocess with grep (linux)
-cpu_sockets =  int(subprocess.check_output('cat /proc/cpuinfo | grep "physical id" | '
-                                           'sort -u | wc -l', shell=True))
+cpu_sockets = int(subprocess.check_output('cat /proc/cpuinfo | grep "physical id" | '
+                                          'sort -u | wc -l', shell=True))
 # info using os
 # cpudie = os.cpu_count()
 DeskTop = os.environ.get('DESKTOP_SESSION')
@@ -32,7 +32,7 @@ cpu1 = platform.processor()
 
 # info using psutil
 cpucount = psutil.cpu_count()
-cpucountphys = int(cpucount/2)
+cpucountphys = int(cpucount / 2)
 cpu2 = psutil.cpu_freq()
 cpu2max = psutil.cpu_freq().max
 cpu2min = psutil.cpu_freq().min
@@ -47,11 +47,11 @@ cpu3syscalls = psutil.cpu_stats().syscalls
 user = psutil.users()
 # net1 = psutil.net_if_addrs()
 mem = psutil.virtual_memory()
-memTotal = psutil.virtual_memory().total/1000000000
+memTotal = psutil.virtual_memory().total / 1000000000
 format_memtotal = "{:.2f}".format(memTotal)
-memAvail = psutil.virtual_memory().available/1000000000
+memAvail = psutil.virtual_memory().available / 1000000000
 format_memAvail = "{:.2f}".format(memAvail)
-memUsed = psutil.virtual_memory().used/1000000000
+memUsed = psutil.virtual_memory().used / 1000000000
 format_memUsed = "{:.2f}".format(memUsed)
 
 # info using platform
