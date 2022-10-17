@@ -9,6 +9,7 @@ import time
 import requests
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import pandas as pd
 pd.set_option('max_colwidth', 140)
@@ -33,10 +34,10 @@ class Primewirebin:
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument('--no-sandbox')
         self.driver = webdriver.Chrome("./chromedriver", options=options)
-        self.driver.get("https://www.primewire.vc/") # https://www.soap2day.ac
+        self.driver.get("https://www.soap2day.ac") # https://www.soap2day.ac
         time.sleep(3)
-        self.driver.find_element_by_xpath("//*[@id='search_term']").click()
-        searchbox = self.driver.find_element_by_css_selector("#search_term")
+        self.driver.find_element(By.XPATH, "//*[@id='search_term']").click()
+        searchbox = self.driver.find_element(By.CSS_SELECTOR, "#search_term")
         time.sleep(3)
         searchbox.send_keys(search0)
         searchbox.send_keys(Keys.ENTER)
@@ -136,9 +137,6 @@ class Primewirebin:
         combo1 = pathconst1 + site
         print(combo1)
         os.system(f'curl --output {combo1}')
-
-
-
         # os.system(f'wget -O {combo1}')
         # os.system(f'for file in {pathconst}; do mv "$file" `echo $file | tr '_' ' ' ; done')
         # self.driver.find_element_by_css_selector("li.fake-tabs__item:nth-child(4)").click()

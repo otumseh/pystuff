@@ -7,6 +7,7 @@
 import time
 import requests
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 # from functools import reduce
 import pandas as pd
@@ -29,11 +30,11 @@ class EbayBIN:
         self.driver = webdriver.Chrome("./chromedriver", options=options)
         self.driver.get("https://www.ebay.com/")
         time.sleep(2)
-        self.driver.find_element_by_xpath("//*[@id='gh-ac-box2']").click()
-        searchbox = self.driver.find_element_by_css_selector("#gh-ac")
+        self.driver.find_element(By.XPATH, "//*[@id='gh-ac-box2']").click()
+        searchbox = self.driver.find_element(By.CSS_SELECTOR, "#gh-ac")
         time.sleep(2)
         searchbox.send_keys(search1)
-        startsearch = self.driver.find_element_by_css_selector("#gh-btn")
+        startsearch = self.driver.find_element(By.CSS_SELECTOR, "#gh-btn")
         time.sleep(1)
         startsearch.click()
         time.sleep(2)

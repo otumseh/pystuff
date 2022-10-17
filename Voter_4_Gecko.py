@@ -1,4 +1,6 @@
-# ebay scraper using selenium
+"""
+ebay scraper using selenium with Firefox
+"""
 # test line
 
 # grab stuff needed and panda lists formatting
@@ -8,18 +10,16 @@
 # from scipy import stats
 import time
 import requests
-
+import pandas as pd
+from bs4 import BeautifulSoup
 from selenium.webdriver import Firefox
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.common.by import By
 # from selenium.webdriver.firefox.options import Options
-from bs4 import BeautifulSoup
-import pandas as pd
 pd.set_option('max_colwidth', 140)
 pd.set_option('expand_frame_repr', False)
 profile_path = r'/.mozilla/firefox/q15lt0n7.default-release'
-
 # bot setup and user input, open buy it now page 1
 
 
@@ -47,7 +47,7 @@ class EbayBIN:
         time.sleep(2)
 # gets buy it now tab for chosen item
         starturl = self.driver.current_url
-        res = requests.get(starturl)
+        res = requests.get(starturl, timeout=20)
         ebaysoup = BeautifulSoup(res.text, "lxml")
         elements = ebaysoup.select("li.fake-tabs__item.btn a")
         print(elements[-1]["href"])
@@ -60,10 +60,10 @@ class EbayBIN:
     # current location check and print check page 1 and 2
         url = self.driver.current_url
         print(url)
-        page = requests.get(url)
+        page = requests.get(url, timeout=20)
         url2 = url + "&_pgn=2"
         print(url2)
-        page2 = requests.get(url2)
+        page2 = requests.get(url2, timeout=20)
 
     # create dbs to take data from scrape targets
         item_names = []
@@ -90,7 +90,8 @@ class EbayBIN:
                 prices.append(pricestr)
                 # print(price)
             # shippings
-                shipping = [sc.get_text() for sc in listing.select(".s-item .s-item__shipping.s-item__logisticsCost")]
+                shipping = [sc.get_text() for sc in listing.select(".s-item .s-item__shipping"
+                                                                   ".s-item__logisticsCost")]
                 # prod_shipping = str(shipping.find(text=True, recursive=False))
                 shippings.append(shipping)
                 # print(shipping)
