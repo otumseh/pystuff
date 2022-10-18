@@ -6,7 +6,7 @@ This program checks external and internal IPs and other info for Windows
 # import dfwinreg
 # import sys
 # import os
-import socket
+# import socket
 import subprocess
 import socket
 import platform
@@ -173,6 +173,6 @@ print("")
 print("External IP: ", ip)
 print("Internal IP: ", s.getsockname()[0])
 print("Gateway IP:  ", gws['default'][netifaces.AF_INET][0])
-print(DomName)
-print("The domain name for " + s.getsockname()[0] + " is", DomName)
+# print(DomName[0])
+print("The domain name for " + s.getsockname()[0] + " is", DomName[0])
 s.close()
