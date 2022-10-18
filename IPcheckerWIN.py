@@ -4,9 +4,9 @@ This program checks external and internal IPs and other info for Windows
 
 # import requests
 # import dfwinreg
-# import subprocess
-import sys
-import os
+import subprocess
+# import sys
+# import os
 import socket
 import platform
 import cpuinfo
@@ -22,13 +22,58 @@ cputype = cpuinfo.get_cpu_info()['brand_raw']
 # use subprocess with grep (linux)
 # cpu_sockets = int(subprocess.check_output('cat /proc/cpuinfo | grep "physical id" | '
 #                                           'sort -u | wc -l', shell=True))
+
+# use subprocess with wmic Win32_VideoController (Windows)
+GPUgetname = subprocess.check_output("wmic path Win32_VideoController get name", shell=True, text=True)
+result = " ".join(line.strip() for line in GPUgetname.splitlines())
+StripRes = result.replace("Name", "")
+MoreStripRes = StripRes.strip()
+MoreStripRes1 = MoreStripRes.replace("'", '')
+
+GPUgetDriver = subprocess.check_output("wmic path Win32_VideoController get DriverVersion", shell=True, text=True)
+resultDriver = " ".join(line.strip() for line in GPUgetDriver.splitlines())
+StripDriver = resultDriver.replace("DriverVersion", "")
+MoreStripDriver = StripDriver.strip()
+MoreStripDriver1 = MoreStripDriver.replace("'", '')
+
+GPUgetDriverDate = subprocess.check_output("wmic path Win32_VideoController get DriverDate", shell=True, text=True)
+resultDriverDate = " ".join(line.strip() for line in GPUgetDriverDate.splitlines())
+StripDriverDate = resultDriverDate.replace("DriverDate", "")
+MoreStripDriverDate = StripDriverDate.strip()
+MoreStripDriverDate1 = MoreStripDriverDate.replace("'", '')
+FormatDate = MoreStripDriverDate1[0:8]
+
+GPUgetRes = subprocess.check_output("wmic path Win32_VideoController get VideoModeDescription", shell=True, text=True)
+resultRes = " ".join(line.strip() for line in GPUgetRes.splitlines())
+StripResRes = resultRes.replace("VideoModeDescription", "")
+MoreStripResRes = StripResRes.strip()
+MoreStripRes1Res = MoreStripResRes.replace("'", '')
+
+GPUgetMaxRefr = subprocess.check_output("wmic path Win32_VideoController get MaxRefreshRate", shell=True, text=True)
+resultRefr = " ".join(line.strip() for line in GPUgetMaxRefr.splitlines())
+StripRefr = resultRefr.replace("MaxRefreshRate", "")
+MoreStripRefr = StripRefr.strip()
+MoreStripRefr1 = MoreStripRefr.replace("'", '')
+
+GPUgetMinRefr = subprocess.check_output("wmic path Win32_VideoController get MinRefreshRate", shell=True, text=True)
+resultMin = " ".join(line.strip() for line in GPUgetMinRefr.splitlines())
+StripMinRefr = resultMin.replace("MinRefreshRate", "")
+MoreStripMinRefr = StripMinRefr.strip()
+MoreStripMinRefr1 = MoreStripMinRefr.replace("'", '')
+
+GPUgetCurRefr = subprocess.check_output("wmic path Win32_VideoController get CurrentRefreshRate", shell=True, text=True)
+resultCur = " ".join(line.strip() for line in GPUgetCurRefr.splitlines())
+StripCur = resultCur.replace("CurrentRefreshRate", "")
+MoreStripCur = StripCur.strip()
+MoreStripCur1 = MoreStripCur.replace("'", '')
+
 # info using os
 # cpudie = os.cpu_count()
-DeskTop = os.environ.get('DESKTOP_SESSION')
+# DeskTop = os.environ.get('DESKTOP_SESSION')
 
 # info using sys
 cpu1 = platform.processor()
-winver = sys.getwindowsversion()
+# winver = sys.getwindowsversion()
 
 # info using psutil
 cpucount = psutil.cpu_count()
@@ -53,6 +98,7 @@ memAvail = psutil.virtual_memory().available / (1024 ** 3)
 format_memAvail = "{:.2f}".format(memAvail)
 memUsed = psutil.virtual_memory().used / (1024 ** 3)
 format_memUsed = "{:.2f}".format(memUsed)
+memPerc = psutil.virtual_memory().percent
 
 # info using platform
 nameCPU = platform.processor()
@@ -93,21 +139,31 @@ print("")
 print("Total System Memory:", format_memtotal, "GB")
 print("Total Available Memory:", format_memAvail, "GB")
 print("Total Used Memory:", format_memUsed, "GB")
+print("Percentage Used:", memPerc, "%")
+print("")
+# print(subprocess.check_output("wmic path Win32_VideoController", shell=True, text=True))
+print("Graphics Card:", MoreStripRes1)
+print("Driver Version:", MoreStripDriver1)
+print("Driver Date:", FormatDate)
+print("Resolution and Color:", MoreStripRes1Res)
+print("Maximum Refresh Rate:", MoreStripRefr1, "Hz")
+print("Minimum Refresh Rate:", MoreStripMinRefr1, "Hz")
+print("Current Refresh Rate:", MoreStripCur1, "Hz")
 print("")
 # print(boot1)
 # print(user[0])
 print("Username:", user[0].name)
-print("Terminal:", user[0].terminal)
-print("Host:", user[0].host)
-print("PID:", user[0].pid)
+# print("Terminal:", user[0].terminal)
+# print("Host:", user[0].host)
+# print("PID:", user[0].pid)
 print("")
 # print(name)
 print("Base OS:", nameOSbase)
-print("node:", nameNode)
-print("Kernel:", nameOSrelease)
-print("OS:", nameOS)
-print("DE:", DeskTop)
-print(winver)
+print("Desktop Name:", nameNode)
+print("Win Ver:", nameOSrelease)
+print("Version and Build:", nameOS)
+# print("DE:", DeskTop)
+# print(winver)
 print("")
 
 # print(net1)
