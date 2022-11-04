@@ -1,6 +1,10 @@
 # Yolo object detection.  
 
+import os
+import sys
 import cv2
+# import PIL
+from PIL import Image
 import numpy as np
 
 # Load Yolo
@@ -9,11 +13,13 @@ classes = []
 with open("coco.names", "r") as f:
     classes = [line.strip() for line in f.readlines()]
 layer_names = net.getLayerNames()
-output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
 colors = np.random.uniform(0, 255, size=(len(classes), 3))
 
 # Loading image
-img = cv2.imread("room_ser.jpg")
+img = cv2.imread("200923_170804365.jpg")
+# image1 = Image.open("200923_170804365.jpg")
+# img.save("found", format="JPEG")
 img = cv2.resize(img, None, fx=0.4, fy=0.4)
 height, width, channels = img.shape
 
@@ -50,6 +56,8 @@ for out in outs:
 indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
 print(indexes)
 font = cv2.FONT_HERSHEY_PLAIN
+
+
 for i in range(len(boxes)):
     if i in indexes:
         x, y, w, h = boxes[i]
@@ -58,7 +66,9 @@ for i in range(len(boxes)):
         cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
         cv2.putText(img, label, (x, y + 30), font, 3, color, 3)
 
-
 cv2.imshow("Image", img)
+cv2.imwrite('C:/Users/amuto/img.jpg', img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
+
+print("test")
