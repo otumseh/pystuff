@@ -81,7 +81,7 @@ class EbayBIN:
             prod_name = " "
             # prod_price = " "
             # prod_shipping = " "
-            for name in listing.find_all('h3', attrs={'class': "s-item__title"}):
+            for name in listing.find_all('span', attrs={'role': "heading"}):
                 if str(name.find(text=True, recursive=False)) != "None":
                     prod_name = str(name.find(text=True, recursive=False))
                     item_names.append(prod_name)
