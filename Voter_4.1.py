@@ -31,10 +31,10 @@ class EbayBIN:
 # Collect input and execute search
         search1 = (input("Type an item: "))
         askcsv = (input("Do you want a csv? 'y' or 'n': "))
-        # uncomment follow 2 lines for linux
+# uncomment follow 2 lines for linux
         # service = Service("./chromedriver")
         # self.driver = webdriver.Chrome(service=service, options=options)
-        # uncomment the following 2 lines for Win
+# uncomment the following 2 lines for Win
         service = Service("C:/WebDriver/chromedriver.exe")
         self.driver = webdriver.Chrome(options=options)
         self.driver.get("https://www.ebay.com/")
@@ -76,15 +76,18 @@ class EbayBIN:
         soup = BeautifulSoup(data)
 
         listings = soup.find_all('li', attrs={'class': 's-item'})
+        # print(listings)
 
         for listing in listings:
             prod_name = " "
             # prod_price = " "
             # prod_shipping = " "
-            for name in listing.find_all('h3', attrs={'class': "s-item__title"}):
+            for name in listing.find_all('span', attrs={'role': "heading"}):
+                # print(name)
                 if str(name.find(text=True, recursive=False)) != "None":
                     prod_name = str(name.find(text=True, recursive=False))
                     item_names.append(prod_name)
+                    # print(prod_name)
             # prices
             if prod_name != " ":
                 price = listing.find('span', attrs={'class': "s-item__price"})

@@ -4,17 +4,19 @@ This program checks external and internal IPs and other info for Windows
 
 # import requests
 # import dfwinreg
-import subprocess
 # import sys
 # import os
+import wmi
+# import socket
+import subprocess
 import socket
 import platform
 import cpuinfo
 import psutil
 import netifaces
 from requests import get
+from ldap3 import Server, Connection, ALL
 
-print("")
 # info using cpuinfo
 # cputype = cpuinfo.get_cpu_info()
 cputype = cpuinfo.get_cpu_info()['brand_raw']
@@ -118,8 +120,14 @@ s.connect(("8.8.8.8", 80))
 # Gets gateway with netifaces
 gws = netifaces.gateways()
 # print(gws)
+DomName = socket.gethostbyaddr(s.getsockname()[0])
+# DCName = os.system('cmd /k "echo %logonserver%"')
+# WMI stuff
+wmi_os = wmi.WMI().Win32_ComputerSystem()[0]
+print(wmi_os.Status)
 
 # print POB
+print("")
 print("CPU:", cputype)
 print("CPU architecture:", cpu1)
 # print("CPU count:", cpu_sockets)
@@ -130,10 +138,10 @@ print("CPU Max Frequency:", cpu2max, "MHz")
 print("CPU Min Frequency:", cpu2min, "MHz")
 print("CPU Current Frequency:", format_cpu2current, "MHz")
 # print(cpu3)
-print("ctx_switches:", cpu3ctx_sw)
-print("interrupts:", cpu3interrupts)
-print("soft_interrupts:", cpu3sft_intpts)
-print("sys_calls:", cpu3syscalls)
+# print("ctx_switches:", cpu3ctx_sw)
+# print("interrupts:", cpu3interrupts)
+# print("soft_interrupts:", cpu3sft_intpts)
+# print("sys_calls:", cpu3syscalls)
 print("")
 # print(mem)
 print("Total System Memory:", format_memtotal, "GB")
@@ -170,20 +178,7 @@ print("")
 print("External IP: ", ip)
 print("Internal IP: ", s.getsockname()[0])
 print("Gateway IP:  ", gws['default'][netifaces.AF_INET][0])
+
+# print(DomName[0])
+print("The domain name for " + s.getsockname()[0] + " is", DomName[0])
 s.close()
-
-# trying to scrape from google answer list to what is my ip
-# from bs4 import BeautifulSoup
-
-# page = requests.get("https://www.google.com/search?q=What+is+my+ip&oq=
-#                    "What+is+my+ip&aqs=chrome..69i57.3309j0j8&sourceid=chrome&ie=UTF-8")
-# soup = BeautifulSoup(page.content, 'html.parser')
-# print(soup.prettify())
-# list(soup.children)
-# ipadd = soup.find(class_="pIpgAc.xyYs1c.XO51F.xsLG9d")
-# print(ipadd)
-
-# ipadd = soup.find(id="search")
-# ipitem = ipadd.find_all(class_="")
-# ipnow = ipitem[0]
-# print(ipnow.prettify())
