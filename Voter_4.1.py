@@ -76,29 +76,40 @@ class EbayBIN:
         soup = BeautifulSoup(data)
 
         listings = soup.find_all('li', attrs={'class': 's-item'})
-        # print(listings)
+        #print(listings)
 
         for listing in listings:
-            prod_name = " "
+            # prod_name = " "
             # prod_price = " "
-            # prod_shipping = " "
-            for name in listing.find_all('span', attrs={'role': "heading"}):
-                # print(name)
-                if str(name.find(text=True, recursive=False)) != "None":
-                    prod_name = str(name.find(text=True, recursive=False))
-                    item_names.append(prod_name)
+            # prod_shipping = " "            
+        #   for name in listing.find_all('span', attrs={'role': "heading"}):
+            #name = [nm.get_text() for nm in listing.select('span', attrs={'role': "heading"})]
+            name = [nm.get_text() for nm in listing.select(".s-item .s-item__title")]
+            print(name)
+            #if str(name.find(text=True, recursive=False)) != "None":
+            #prod_name = str(name.find(text=True, recursive=False))
+            #item_names.append(prod_name)
+            item_names.append(name)
                     # print(prod_name)
+            
             # prices
-            if prod_name != " ":
-                price = listing.find('span', attrs={'class': "s-item__price"})
-                pricestr = str(price.find(text=True, recursive=False))
-                prices.append(pricestr)
-                # print(price)
+            #if prod_name != " ":
+            #price = listing.find('span', attrs={'class': "s-item__price"})
+            #price = [pr.get_text() for pr in listing.select('span', attrs={'class': "s-item__price"})]
+            for price in listing.find_all('span', attrs={'class': "s-item__price"}):
+                price = [pr.get_text('\n') for pr in listing.find_all('span', attrs={'class': "s-item__price"})]
+                print(price)
+            #pricestr = str(price.find(text=True, recursive=False))
+            #prices.append(pricestr)exit
+                prices.append(price)
+            #print(price)
+            
             # shippings
-                shipping = [sc.get_text() for sc in listing.select(".s-item .s-item__shipping."
+            shipping = [sc.get_text() for sc in listing.select(".s-item .s-item__shipping."
                                                                    "s-item__logisticsCost")]
+            print(shipping)
                 # prod_shipping = str(shipping.find(text=True, recursive=False))
-                shippings.append(shipping)
+            shippings.append(shipping)
                 # print(shipping)
         # print checks
         print(len(item_names))
