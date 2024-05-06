@@ -1,29 +1,41 @@
 import os
 import time
 import subprocess
+import platform
 
+# hostnameDCAST = 'DT-dcastillo-std'
+# result = subprocess.run("ping -4 -a -n 1 " + hostnameDCAST, stdout=subprocess.PIPE)
+# output = result.stdout.decode('utf8')
+# print(output)
+# if "Destination host unreachable." in output:
+#     print("Unreachable")
+# else:
+#     print("nada")
 
 # Muto Framework laptop
 hostnameLT = 'LT-MUTO-STAN'
-responseLT = subprocess.run('ping -4 -a -n 1 ' + str(hostnameLT), shell=True)
+responseLT = subprocess.run('ping -4 -a -n 1 ' + str(hostnameLT), stdout=subprocess.PIPE, shell=True)
+outputLT = responseLT.stdout.decode('utf8')
 time.sleep(4)
 print(responseLT)
 responseLT.returncode 
-if responseLT.returncode == 0:
+if "Destination host unreachable." not in outputLT and responseLT.returncode == 0:
     print(hostnameLT, '\033[1;32m [ **SERVER UP** ] \033[1;m')
 else:
     print(hostnameLT, '\033[93m [ **SERVER DOWN** ] \033[93m')
 print("\033[0m")
 print(responseLT.returncode)
 
-time.sleep(3)
+time.sleep(2)
 
 # Used to be Dom Castillo PC
 hostnameDCAST = 'DT-dcastillo-std'
-responseDCAST = subprocess.run("ping -4 -a -n 1 " + hostnameDCAST, shell=True)
-time.sleep(5)
+responseDCAST = subprocess.run("ping -4 -a -n 1 " + hostnameDCAST, stdout=subprocess.PIPE, shell=True)
+output = responseDCAST.stdout.decode('utf8')
+time.sleep(4)
+print(responseDCAST)
 responseDCAST.returncode 
-if responseDCAST.returncode == 0:
+if "Destination host unreachable." not in output and responseDCAST.returncode == 0:
     print(hostnameDCAST, '\033[1;32m [ **SERVER UP** ] \033[1;m')
 else:
     print(hostnameDCAST, '\033[93m [ **SERVER DOWN** ] \033[93m')
@@ -58,7 +70,7 @@ else:
 print("\033[0m")
 print(response1.returncode)
 
-time.sleep(3)
+time.sleep(2)
 
 # DNS failvoer
 hostnameDNSb = '66.188.38.58'
