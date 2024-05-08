@@ -4,37 +4,58 @@ import time
 import subprocess
 import platform
 import sys
+from PyQt6.QtWidgets import (QApplication,QFormLayout,QLineEdit,QWidget,)
 
+
+app = QApplication([])
+
+window = QWidget()
+window.setWindowTitle("System Up or Down")
+layout = QFormLayout()
+
+# gr = QLineEdit.setStyleSheet("background-color:green")
+# rd = QLineEdit.setStyleSheet("background-color:red")
 
 # Muto Framework laptop
 hostnameLT = 'LT-MUTO-STAN'
+readNameLT = 'Muto Laptop'
 responseLT = subprocess.run('ping -4 -a -n 1 ' + str(hostnameLT), stdout=subprocess.PIPE, shell=True)
 outputLT = responseLT.stdout.decode('utf8')
 time.sleep(3)
 # print(responseLT)
 responseLT.returncode 
 if "Destination host unreachable." not in outputLT and responseLT.returncode == 0:
-    print(hostnameLT, '\033[96m Muto Laptop \033[96m', '\033[1;32m [ **SERVER UP** ] \033[1;m')
+    up = ('[ **SERVER UP** ]')
+    layout.addRow(readNameLT, QLineEdit(up))
 else:
-    print(hostnameLT, '\033[96m Muto Laptop \033[96m', '\033[93m [ **SERVER DOWN** ] \033[93m')
+    # window.setStyleSheet('color: rgb(250, 0, 0);')
+    down = ('[ **SERVER DOWN** ]')
+    layout.addRow(readNameLT, QLineEdit(down))
 print("\033[0m")
-print(responseLT.returncode)
+# print(responseLT.returncode)
 
 time.sleep(1)
 
 # Used to be Dom Castillo PC
 hostnameDCAST = 'DT-dcastillo-std'
+readNameDCAST = 'Doms Old PC'
 responseDCAST = subprocess.run("ping -4 -a -n 1 " + hostnameDCAST, stdout=subprocess.PIPE, shell=True)
 output = responseDCAST.stdout.decode('utf8')
 time.sleep(3)
 # print(responseDCAST)
 responseDCAST.returncode 
 if "Destination host unreachable." not in output and responseDCAST.returncode == 0:
-    print(hostnameDCAST, '\033[96m Doms Old PC \033[96m', '\033[1;32m [ **SERVER UP** ] \033[1;m')
+    up = ('[ **SERVER UP** ]')
+    layout.addRow(readNameDCAST, QLineEdit(up))
 else:
-    print(hostnameDCAST, '\033[96m Doms Old PC \033[96m', '\033[93m [ **SERVER DOWN** ] \033[93m')
+    down = ('[ **SERVER DOWN** ]')
+    layout.addRow(readNameDCAST, QLineEdit(down))
 print("\033[0m")
-print(responseDCAST.returncode)
+# print(responseDCAST.returncode)
+
+window.setLayout(layout)
+window.show()
+sys.exit(app.exec())
 
 time.sleep(1)
 
